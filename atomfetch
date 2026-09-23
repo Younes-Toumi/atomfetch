@@ -1,0 +1,69 @@
+#!/bin/bash
+
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+
+STARTUP_START="# >>> Atomfetch startup >>>"
+STARTUP_END="# <<< Atomfetch startup <<<"
+BASHRC="$HOME/.bashrc"
+
+
+enable_startup() {
+    if grep -Fq "$STARTUP_START" "$BASHRC" 2>/dev/null; then
+        echo "Atomfetch startup is already enabled."
+        return
+    fi
+
+    cat >> "$BASHRC" <<EOF
+
+$STARTUP_START
+atomfetch
+$STARTUP_END
+EOF
+
+    echo "Atomfetch startup enabled."
+    echo "Open a new terminal to see it."
+}
+
+
+disable_startup() {
+    if ! grep -Fq "$STARTUP_START" "$BASHRC" 2>/dev/null; then
+        echo "Atomfetch startup is already disabled."
+        return
+    fi
+
+    sed -i "/$STARTUP_START/,/$STARTUP_END/d" "$BASHRC"
+
+    echo "Atomfetch startup disabled."
+}
+
+
+case "$1" in
+    --enable-startup)
+        enable_startup
+        ;;
+
+    --disable-startup)
+        disable_startup
+        ;;
+
+    --help|-h)
+        echo "Atomfetch - animated terminal atom"
+        echo
+        echo "Usage:"
+        echo "  atomfetch                    Start Atomfetch"
+        echo "  atomfetch --enable-startup   Enable startup animation"
+        echo "  atomfetch --disable-startup  Disable startup animation"
+        echo "  atomfetch --help             Show this help"
+        ;;
+
+    "")
+        python3 "$SCRIPT_DIR/src"
+        ;;
+
+    *)
+        echo "Unknown option: $1"
+        echo "Run 'atomfetch --help' for available options."
+        exit 1
+        ;;
+esac

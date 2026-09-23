@@ -1,7 +1,5 @@
 # Animated Atom ASCII in Terminal
-A small animated 3D-inspired atom visualization for the terminal.
-Built with Python using ANSI terminal rendering, simple 3D orbit projection,
-depth-based coloring, and animated electron shells.
+A small animated 3D-inspired atom visualization for the terminal. Built with Python using ANSI terminal rendering, simple 3D orbit projection, depth-based coloring, and animated electron shells.
 
 ![Demo 1](assets/demo_1.gif)
 
@@ -26,8 +24,7 @@ depth-based coloring, and animated electron shells.
 
 ## How it works
 
-The orbit is represented as a circle in 3D space. The circle can be tilted and rotated before being projected onto the terminal's
-2D character grid.
+The orbit is represented as a circle in 3D space. The circle can be tilted and rotated before being projected onto the terminal's 2D character grid.
 
 Electron positions are calculated from their angular velocity:
     angle = initial_angle + time * speed
@@ -56,6 +53,17 @@ The depth of each point is then used to determine its brightness.
 - A terminal with ANSI escape sequence support
 - Neofetch
 
+## Installation
+
+Clone the repo, run the installation, and simply run `atomfetch`:
+
+```bash
+git clone https://github.com/Younes-Toumi/atomfetch.git
+cd atomfetch
+./install.sh
+atomfetch
+```
+
 ## Customization
 
 Orbit appearance can be changed through the configuration:
@@ -71,9 +79,7 @@ Orbit appearance can be changed through the configuration:
 
 ## Why I built this
 
-This started as a small terminal animation experiment and became a way to
-learn more about terminal rendering, coordinate transformations, animation,
-and eventually performance optimization.
+This started as a small terminal animation experiment and became a way to learn more about terminal rendering, coordinate transformations, animation, and eventually performance optimization.
 
 ## License
 
