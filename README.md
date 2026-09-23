@@ -1,4 +1,4 @@
-# Animated Atom ASCII in Terminal
+# atomfetch
 A small animated 3D-inspired atom visualization for the terminal. Built with Python using ANSI terminal rendering, simple 3D orbit projection, depth-based coloring, and animated electron shells.
 
 ![Demo 1](assets/demo_1.gif)
