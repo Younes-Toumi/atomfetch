@@ -46,10 +46,6 @@ The depth of each point is then used to determine its brightness.
     │   ├── examples.py
     │   ├── orbit.py
     │   └── system_info.py
-    │
-    ├── tests/
-    │   └── test_orbit.py
-    │
     ├── LICENSE
     └── README.md
 ```
@@ -81,4 +77,4 @@ and eventually performance optimization.
 
 ## License
 
-MIT License
+MIT-0 License
