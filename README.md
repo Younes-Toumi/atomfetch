@@ -82,7 +82,7 @@ $$
 The resulting ($\vec{p_s} = (x_s,y_s)$ coordinates are the 2D screen coordinates before they are mapped to terminal cells. The continuous screen coordinates are converted to discrete terminal-cell coordinates:
 
 $$
-\operatorname{round}(\vec{p}_c + \vec{p}_s)
+round(\vec{p}_c + \vec{p}_s)
 $$
 
 where $\vec{p}_c = (x_c,y_c)$ is the center of the terminal canvas. The resulting points are drawn as ASCII/Unicode characters with ANSI true-color shading.
