@@ -26,25 +26,81 @@ A small animated 3D-inspired atom visualization for the terminal. Built with Pyt
 
 The orbit is represented as a circle in 3D space. The circle can be tilted and rotated before being projected onto the terminal's 2D character grid.
 
-Electron positions are calculated from their angular velocity:
-    angle = initial_angle + time * speed
+![layout](assets/layout.png)
 
-The depth of each point is then used to determine its brightness.
+The animation is built from three main steps:
+
+1. Define circular orbits in 3D.
+2. Transform and rotate the orbital planes.
+3. Project the resulting geometry onto the terminal's 2D character grid.
+
+#### 1. Parametric orbit
+
+Each electron orbit starts as a circle of radius $R$, parameterized by an angle $\theta$:
+
+$$
+x = R\cos\theta,
+\qquad
+y = R\sin\theta,
+\qquad
+z = 0.
+$$
+
+#### 2. Tilting the orbital plane
+
+The orbit is then tilted by an inclination angle $i$. This is equivalent to rotating the circle around the $x$-axis:
+
+$$
+x' = R\cos\theta
+$$
+
+$$
+y' = R\sin\theta\cos i
+$$
+
+$$
+z' = R\sin\theta\sin i.
+$$
+
+The $z'$ coordinate is not directly displayed, it contains the depth information needed to determine which parts of the orbit are closer to or farther from the viewer.
+
+- $i=0$: the orbit is flat.
+- $i=\frac{\pi}{2}$: the orbit is viewed edge-on.
+
+#### 3. Rotating the orbital plane
+
+The tilted orbit can then be rotated around the viewing axis by an angle $\phi$:
+
+$$
+x_s = x'\cos\phi-y'\sin\phi
+$$
+
+$$
+y_s = x'\sin\phi+y'\cos\phi.
+$$
+
+The resulting ($\vec{p_s} = (x_s,y_s)$ coordinates are the 2D screen coordinates before they are mapped to terminal cells. The continuous screen coordinates are converted to discrete terminal-cell coordinates:
+
+$$
+\operatorname{round}(\vec{p}_c + \vec{p}_s)
+$$
+
+where $\vec{p}_c = (x_c,y_c)$ is the center of the terminal canvas. The resulting points are drawn as ASCII/Unicode characters with ANSI true-color shading.
 
 ## Project structure
 
 ```txt
-    terminal-startup/
-    ├── src/
-    │   ├── __main__.py
-    │   ├── canvas.py
-    │   ├── colors.py
-    │   ├── config.py
-    │   ├── examples.py
-    │   ├── orbit.py
-    │   └── system_info.py
-    ├── LICENSE
-    └── README.md
+terminal-startup/
+├── src/
+│   ├── __main__.py       
+│   ├── canvas.py         # terminal canvas and rendering
+│   ├── colors.py         # color and shading utilities
+│   ├── config.py         # animation and display configuration
+│   ├── examples.py       # examples animations / demonstrations
+│   ├── orbit.py          # orbital geometry and electron motion
+│   └── system_info.py    # system information collection
+├── LICENSE               
+└── README.md             
 ```
 
 ## Requirements
@@ -64,22 +120,24 @@ cd atomfetch
 atomfetch
 ```
 
-## Customization
+## Support
+Currently supports features:
 
-Orbit appearance can be changed through the configuration:
+```bash
+noyrosu@pop-os:~$ atomfetch --help
+Atomfetch - animated terminal atom
 
-- radius
-- inclination
-- rotation
-- electron count
-- angular speed
-- color
-- number of path points
-- depth-shading levels
+Usage:
+  atomfetch                    Start Atomfetch
+  atomfetch --enable-startup   Enable startup animation
+  atomfetch --disable-startup  Disable startup animation
+  atomfetch --help             Show this help
+```
 
 ## Why I built this
 
-This started as a small terminal animation experiment and became a way to learn more about terminal rendering, coordinate transformations, animation, and eventually performance optimization.
+This started as a small terminal animation experiment and became a way to learn more about terminal rendering, coordinate transformations, animation. I got inspired from Pewdiepie's dionysus setup check it out! [link](https://github.com/pewdiepie-archdaemon/dionysus/tree/dionysus/dotfiles/neofetch)
+
 
 ## License
 
